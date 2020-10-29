@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 
 const mongoose = require('mongoose');
 // load env variables
@@ -23,8 +25,9 @@ const postRoutes = require('./routes/post');
 
 //middleware :       (used for functionalities like authentication)
 app.use(morgan("dev"));
-// app.get("/",getPosts);
-app.use("/", postRoutes);		//now this works as middleware. Gets request and gives control to ./routes/post
+app.use(bodyParser.json());
+app.use(expressValidator());
+app.use("/", postRoutes);		//Gets request and gives control to ./routes/post
 
 const port=process.env.PORT || 8080;
-app.listen(port, ()=>{console.log(`A node js api is listen on port ${port}`)});
+app.listen(port, ()=>{console.log(`A node js api is listening on port ${port}`)});
