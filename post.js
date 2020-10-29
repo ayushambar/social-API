@@ -1,10 +1,14 @@
-const express = require('express');
-const postController = require('../controllers/post');
-const validator = require('../validator');	//dont need to write index because file ewith name 'index' is automatically loaded
+const mongoose = require('mongoose');
 
-const router = express.Router();		//for route handling
+const postSchema = new mongoose.Schema({
+	title:{
+		type:String,
+		required:true
+	},
+	body:{
+		type:String,
+		required:true,
+	}
+});
 
-router.get("/", postController.getPosts);	//taking request and gigving control to ../controllers/post
-router.post("/post", validator.createPostValidator, postController.createPost);	//creating a post
-
-module.exports = router;
+module.exports = mongoose.model("Post",postSchema);
