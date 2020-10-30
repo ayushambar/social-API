@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator');
 
 const mongoose = require('mongoose');
@@ -22,12 +23,15 @@ mongoose.connection.on('error', err => {
 
 //bring in routes :
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 
 //middleware :       (used for functionalities like authentication)
 app.use(morgan("dev"));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(expressValidator());
 app.use("/", postRoutes);		//Gets request and gives control to ./routes/post
+app.use("/", authRoutes);
 
 const port=process.env.PORT || 8080;
 app.listen(port, ()=>{console.log(`A node js api is listening on port ${port}`)});
