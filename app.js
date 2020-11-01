@@ -24,6 +24,7 @@ mongoose.connection.on('error', err => {
 //bring in routes :
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 //middleware :       (used for functionalities like authentication)
 app.use(morgan("dev"));
@@ -32,6 +33,12 @@ app.use(cookieParser());
 app.use(expressValidator());
 app.use("/", postRoutes);		//Gets request and gives control to ./routes/post
 app.use("/", authRoutes);
+app.use("/", userRoutes);
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({error : 'Unauthorized!'});
+  }
+});
 
 const port=process.env.PORT || 8080;
 app.listen(port, ()=>{console.log(`A node js api is listening on port ${port}`)});
