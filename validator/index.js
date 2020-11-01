@@ -20,7 +20,7 @@ exports.createPostValidator = (req,res,next) => {
 
 	//procee to next middleware
 	next();
-}
+} 
 
 exports.userSignupValidator = (req,res,next) =>{
 	//name is not null and between 4 and 10 characters
