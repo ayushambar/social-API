@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator');
+const fs = require('fs');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 // load env variables
@@ -26,11 +28,25 @@ const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 
+//api Docs
+app.get('/', (req,res) => {
+	fs.readFile('docs/apiDocs.json', (err,data) => {
+		if(err){
+			return res.status(400).json({
+				error: err
+			});
+		}
+		const docs = JSON.parse(data);
+		res.json(docs);
+	});
+});
+
 //middleware :       (used for functionalities like authentication)
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 app.use("/", postRoutes);		//Gets request and gives control to ./routes/post
 app.use("/", authRoutes);
 app.use("/", userRoutes);
