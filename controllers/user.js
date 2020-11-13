@@ -31,7 +31,7 @@ exports.allUsers = (req,res) => {
 				error : err
 			});
 		}
-		res.json({user});
+		res.json(user);
 	}).select("name email updated created");
 };
 
@@ -39,14 +39,14 @@ exports.allUsers = (req,res) => {
 exports.getUser = (req,res) => {
 	req.profile.hashed_password = undefined;
 	req.profile.salt = undefined;
-	return res.json(req.profile); 
-}; 
+	return res.json(req.profile);
+};
 
 
 
 exports.updateUser = (req,res,next) => {
 	let user = req.profile;
-	user = _.extend(user, req.body); 		//extend - mutate the source object 
+	user = _.extend(user, req.body); 		//extend - mutate the source object
 	user.updated = Date.now();
 	user.save((err) => {
 		if(err){
@@ -56,7 +56,7 @@ exports.updateUser = (req,res,next) => {
 		}
 		user.hashed_password = undefined;
 		user.salt = undefined;
-		res.json({user});
+		res.json(user);
 	});
 };
 
