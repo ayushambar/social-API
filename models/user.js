@@ -22,12 +22,16 @@ const userSchema = new mongoose.Schema({
 		type : Date,
 		default : Date.now
 	},
-	updated : Date
+	updated : Date,
+	photo : {
+		data : Buffer,
+		contentType : String
+	}
 })
 
 /* Virtual fields are additional fields for a given model
    Their values can be set manuallynaur automatically with defined functionality
-   Virtual properties (password) dont get persisited in the database, 	
+   Virtual properties (password) dont get persisited in the database,
    They only exist logically and are not writtento the document's collection
 */
 
@@ -58,7 +62,7 @@ userSchema.methods = {
 							.update(password)
 							.digest('hex');
 		}
-		catch(err){ 
+		catch(err){
 			return "";
 		}
 	}
