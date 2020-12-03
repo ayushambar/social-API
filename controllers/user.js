@@ -122,7 +122,6 @@ exports.addFollower = (req,res) => {
 	});
 };
 
-// follow unfollow
 exports.removeFollowing = (req,res,next) => {
 	User.findByIdAndUpdate(req.body.userId, {$pull: {following: req.body.unfollowId}}, (err, result) => {
 		if(err){
